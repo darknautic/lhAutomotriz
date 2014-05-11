@@ -6,6 +6,7 @@ todo
 **  Save all in lower case << ---
 **  Cotizacion
 **  Compatabilidad
+**  stock trace
 
 
 
