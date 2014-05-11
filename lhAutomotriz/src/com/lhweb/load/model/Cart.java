@@ -76,7 +76,7 @@ public class Cart {
         HashMap<String,Object> item = new HashMap<String, Object>();
         item.clear();
 
-        HashMap<String,Object> a = new HashMap<String, Object>();
+        //HashMap<String,Object> a = new HashMap<String, Object>();
 
 
 

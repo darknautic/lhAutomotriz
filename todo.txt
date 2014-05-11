@@ -3,7 +3,10 @@ todo
 **  Existence field goes to -2 when a sales was commited.
     (couldn't sell more than existent articles)
 **  Verify date value on  Date = new Date(),  on MongoDB and Code.
-**  Save all in lower case
+**  Save all in lower case << ---
+**  Cotizacion
+**  Compatabilidad
+
 
 
 
