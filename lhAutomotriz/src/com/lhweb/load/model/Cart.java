@@ -1,13 +1,11 @@
 package com.lhweb.load.model;
 
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by s47id on 5/3/14.
+ * Created by s47id on 5/3/14. --------------------------------
  */
 public class Cart {
 
