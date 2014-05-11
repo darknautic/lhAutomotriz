@@ -1,6 +1,5 @@
 package com.lhweb.load.model;
 
-import com.mongodb.util.StringBuilderPool;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -148,9 +147,6 @@ public class Sales {
 
 
             Stock stock = new Stock();
-            stock._ip="192.168.1.67";
-            stock._port=27017;
-            stock._dbName="LHA";
             stock.connect();
 
             stock.storeJSONObject(salesObject,"sales");
@@ -180,5 +176,4 @@ return response;
 
 
 }
-
 

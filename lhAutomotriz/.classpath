@@ -13,5 +13,8 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="/home/s47id/soft/jars/javax.servlet-3.0.jar"/>
+	<classpathentry kind="lib" path="/home/s47id/soft/jars/mongo-java-driver-2.12.0-rc3.jar"/>
+	<classpathentry kind="lib" path="/home/s47id/soft/jars/mongo-java-driver-2.12.0-rc3-javadoc.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

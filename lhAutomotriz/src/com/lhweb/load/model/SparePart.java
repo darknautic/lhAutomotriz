@@ -343,10 +343,6 @@ public class SparePart {
         //this.existence = existence;
         //this kind of variables must be written immediately to db to prevent inconsistency
         Stock stock = new Stock();
-        stock._ip="192.168.1.67";
-        //stock._ip="10.29.210.41";
-        stock._port=27017;
-        stock._dbName="LHA";
         stock.connect();
 
         if(stock.setExistence(existence,this.barCode) == 0){
@@ -387,10 +383,6 @@ public class SparePart {
     public int storeSparePart( ){
 
         Stock stock = new Stock();
-        stock._ip="192.168.1.67";
-        //stock._ip="10.29.210.41";
-        stock._port=27017;
-        stock._dbName="LHA";
         stock.connect();
 
         HashMap<String,Object> sparePart = new HashMap<String, Object>();
@@ -442,10 +434,6 @@ public class SparePart {
 
 
         Stock stock = new Stock();
-        stock._ip="192.168.1.67";
-        //stock._ip="10.29.210.41";
-        stock._port=27017;
-        stock._dbName="LHA";
         stock.connect();
 
         HashMap<String,Object> sparePart;
@@ -528,10 +516,6 @@ public class SparePart {
         int result = 7;
 
         Stock stock = new Stock();
-        stock._ip="192.168.1.67";
-        //stock._ip="10.29.210.41";
-        stock._port=27017;
-        stock._dbName="LHA";
         stock.connect();
 
         HashMap<String,Object> sparePart;
@@ -567,9 +551,6 @@ public class SparePart {
     public List getAll(){
 
         Stock stock =  new Stock();
-        stock._ip="192.168.1.67";
-        stock._port=27017;
-        stock._dbName="LHA";
         stock.connect();
         List a = stock.all();
         return  a;
@@ -579,9 +560,6 @@ public class SparePart {
     public List<HashMap<String,Object>> getExistenceReport(){
 
         Stock stock =  new Stock();
-        stock._ip="192.168.1.67";
-        stock._port=27017;
-        stock._dbName="LHA";
         stock.connect();
         List<HashMap<String,Object>> a = stock.existenceReport();
         return  a;

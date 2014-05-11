@@ -1,5 +1,6 @@
 package com.lhweb.load.model;
 
+
 /**
  * Created by s47id on 11/04/2014.
  */
@@ -22,7 +23,11 @@ public class Stock {
     private DB db;
     private MongoClient mongoClient;
 
-    public Stock(){};
+    public Stock(){
+        _ip="127.0.0.1";
+        _port=27017;
+        _dbName="LHA";
+    };
 
 
     public void connect(){
@@ -177,7 +182,7 @@ public class Stock {
                 entrada.get("barCode").toString().toLowerCase());
 
         //Updating Balance
-        setBalance(balance + Double.parseDouble(entrada.get("howMany").toString())*Double.parseDouble(entrada.get("purchasePrice").toString()),
+        setBalance(balance + Double.parseDouble(entrada.get("howMany").toString()) * Double.parseDouble(entrada.get("purchasePrice").toString()),
                 entrada.get("barCode").toString().toLowerCase());
 
     }
@@ -358,23 +363,33 @@ public class Stock {
          * */
 
         List<String> splitText = stringToList(textQuery);
-        System.out.println(splitText);
+        String formattedSplitText ="";
+        System.out.println("splitText => " + splitText);
+
+        BasicDBObject textJSONQuery = new BasicDBObject();
+        //List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+        //obj.add(new BasicDBObject("$search", "rolcar"));
+        //obj.add(new BasicDBObject("$language", "spanish"));
+        for(String s : splitText){
+            formattedSplitText = formattedSplitText.concat("\""+s+"\" ");
+        }
+
+        //System.out.println("spliteTextFormatted => " + formattedSplitText);
+        BasicDBObject Obj =  new BasicDBObject();
+        //Obj.put("$search","\"rolcar\" \"sagaji\" \"laser\"");
+        Obj.put("$search",formattedSplitText);
+        Obj.put("$language","spanish");
+        textJSONQuery.put("$text",Obj);
+        System.out.println("fulltext" + textJSONQuery);
 
         HashMap<String,Object> JSONObject = new HashMap<String, Object>();
         DBCollection collection = db.getCollection("spares");
-        BasicDBObject query = new BasicDBObject();
-        DBCursor cursor ;
-
-        for(String s : splitText){
-
-            query.put("sparePart",s);
-            //query.put("briefDescription",s);
-            //query.put("partNumber",s);
-            //query.put("barCode",s);
-
-            cursor = collection.find(query);
+        DBCursor cursor = collection.find(textJSONQuery);
+        System.out.println("\n\n-----------------------");
+        while (cursor.hasNext()) {
+            System.out.println(cursor.next());
         }
-
+        System.out.println("\n\n-----------------------");
 
 
 
@@ -416,7 +431,7 @@ public class Stock {
         List<String> aux ;
         aux = Arrays.asList(text.replace(" ","/").split("/"));
 
-        System.out.println(aux);
+        //System.out.println(aux);
         for(String s : aux){
 
             /*remove empty values*/
@@ -428,7 +443,7 @@ public class Stock {
 
         }
 
-        System.out.println(result);
+        //System.out.println(result);
 
         return result;
     }
@@ -440,7 +455,7 @@ public class Stock {
 
         List<String> result = new ArrayList<String>();
         List<String> aux;
-        aux =  Arrays.asList(s.substring(1,s.length()-1).replaceAll("\"","").split(","));
+        aux =  Arrays.asList(s.substring(1,s.length()-1).replaceAll("\"", "").split(","));
         // .substring  removes the first an last characters from the string ('[' & ']')
         // .replaceAll removes all quotation marks from the string (replaces with empty string)
         // .split brakes the string into a string array on commas (omitting the commas)
@@ -489,7 +504,7 @@ public class Stock {
         HashMap<String, Object> auxHash = new HashMap<String, Object>();
         List<String> aux;
 
-        aux = Arrays.asList(modelString.substring(1,modelString.length() - 1).split("},"));
+        aux = Arrays.asList(modelString.substring(1, modelString.length() - 1).split("},"));
         /**
          *
          * Example of string that can handle
@@ -567,7 +582,7 @@ public class Stock {
             //System.out.println("><>>Key:" +s.substring(0,s.indexOf("=")));
             //System.out.println("><>>value:" +s.replace( s.substring(0, s.indexOf("=") + 1), "" ));
             auxHash.put(s.substring(0,s.indexOf("=")),
-                    stringFormattedToIntegerList(s.replace(s.substring(0,s.indexOf("=")+1),"")));
+                    stringFormattedToIntegerList(s.replace(s.substring(0, s.indexOf("=") + 1), "")));
 
         }
 
@@ -596,7 +611,7 @@ public class Stock {
         List a = spares.find(query,fields).toArray();
         List<HashMap<String,Object>> report = new ArrayList<HashMap<String, Object>>();
 
-        //System.out.println("---->>>>>>< " + a.size());
+        System.out.println("---->>>>>>< " + a.size());
 
 
 
@@ -610,7 +625,7 @@ public class Stock {
 
             HashMap<String,Object> map = new HashMap<String, Object>();
 
-            //System.out.println("*********************" + aux.size());
+            System.out.println("*********************" + aux.size());
             for(int ii = 0; ii < aux.size() ; ii++){
 
 
