@@ -83,6 +83,8 @@ $(document).ready(function(){
    	            
 	   	      	 
 	   	      	 
+	   	      	 
+	   	      	 
    				$( "#containerTableP" ).hide( "blind", { to: { width: 200, height: 60 } }, 1000 );
    				$( "#containerTableI" ).show( "blind", { to: { width: 200, height: 60 } }, 1000 );				
    			});

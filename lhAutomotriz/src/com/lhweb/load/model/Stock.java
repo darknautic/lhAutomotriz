@@ -651,6 +651,17 @@ public class Stock {
         return report;
 
     }
+    
+    public void removeObject(String key,String keyValue, String collectionName){
+
+        DBCollection collection = db.getCollection(collectionName);
+        BasicDBObject query = new BasicDBObject(key, keyValue);
+        query.put(key,keyValue);
+        
+        collection.remove(query);
+
+
+    }
 
 
 
