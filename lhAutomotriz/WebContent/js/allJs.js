@@ -21,6 +21,10 @@ $("#ventaSP").click(function(env){
 	ajaxSend("outcomingStock.jsp", sparePart);
 });
 
+function mensajes(msg){
+	alert(msg);
+}
+
 function ajaxSend(invoke, data){
 	
 	$.ajax({	
@@ -28,12 +32,14 @@ function ajaxSend(invoke, data){
 				url: invoke,
 	       		data: "sparePart="+JSON.stringify(data),
 	       		success: function(msg)    {
-	       			alert(msg.trim());
+	       			mensajes(msg);
+	       			/*alert(msg.trim());
 	       			$("span#msg").empty();
-	       			$("span#msg").append(msg);
+	       			$("span#msg").append(msg);*/
 	       		},
 	       		error:   function(xml,msg){ 
-	       			alert("Error:Favor de Revisar los Valores"); 
+	       			mensajes(msg);
+	       			//alert("Error:Favor de Revisar los Valores"); 
 	       		}
 	 });
 }
