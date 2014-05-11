@@ -510,6 +510,87 @@ public class SparePart {
 
 
 
+
+    public void loadSparePartByBrandNumber(String brandNumber){
+
+
+        Stock stock = new Stock();
+        stock.connect();
+
+        HashMap<String,Object> sparePart;
+        sparePart = stock.loadObject("brandNumber",brandNumber,"spares");
+
+
+
+
+
+        if( !sparePart.isEmpty() & ((String) sparePart.get("brandNumber")) != null ) {
+
+
+            this.sparePartName = (String) sparePart.get("sparePart");
+            this.briefDescription = (String) sparePart.get("briefDescription");
+            this.brand = (String) sparePart.get("brand");
+            this.brandNumber = (String) sparePart.get("brandNumber");
+            this.partNumber = (String) sparePart.get("partNumber");
+            this.systems.put("systems", (List<String>) sparePart.get("systems"));
+            this.barCode = (String) sparePart.get("barCode");
+            this.compatibility.put("compatibility", (HashMap<String, HashMap<String, List<Integer>>>) sparePart.get("compatibility"));
+            this.providers.put("providers", (List<String>) sparePart.get("providers"));
+
+            Double aux;
+            aux = Double.parseDouble(sparePart.get("stockMin").toString());
+            this.stockMin = aux.intValue();
+
+            aux = Double.parseDouble(sparePart.get("existence").toString());
+            this.existence = aux.intValue();
+
+            this.salePrice = (Double) sparePart.get("salePrice");
+            this.specialOfferPrice = (Double) sparePart.get("specialOfferPrice");
+            this.balance =  (Double) sparePart.get("balance");
+
+        }
+        else
+        {
+            sparePart.clear();
+            List<String> emptyList = new ArrayList<String>();
+            HashMap<String,HashMap<String, List<Integer>>> emptyHash = new HashMap<String, HashMap<String, List<Integer>>>();
+
+
+            /*the next lines are used for cleaning SparePart instance,  so ,
+             that's mean if you want to load and a new document from db,
+              it is supposed that you  don't want to work with previous values
+              */
+
+            this.sparePartName = "";
+            this.briefDescription = "";
+            this.brand = "";
+            this.brandNumber = "";
+            this.partNumber = "";
+            this.systems.put("systems", emptyList);
+            this.barCode = "";
+            this.compatibility.put("compatibility", emptyHash);
+            this.providers.put("providers", emptyList);
+            this.stockMin = 0;
+            this.existence = 0;
+            this.salePrice = 0.0;
+            this.specialOfferPrice = 0.0;
+            this.balance = 0.0;
+
+        }
+
+
+
+
+
+
+        stock.close();
+
+
+    }
+
+
+
+
     public int existenceSparePart(String barCode){
 
         /* [-1] => Not Registered no document , [0-*] => existence on Store */
@@ -562,10 +643,21 @@ public class SparePart {
         Stock stock =  new Stock();
         stock.connect();
         List<HashMap<String,Object>> a = stock.existenceReport();
+        stock.close();
         return  a;
 
     }
 
+    public void removeSparePart(){
+
+        Stock stock = new Stock();
+        stock.connect();
+        stock.removeObject("brandNumber",this.brandNumber,"spares");
+        //System.out.println("brandNumber" + this.brandNumber);
+        stock.close();
+
+
+    }
 
 
 }
