@@ -8,10 +8,17 @@ public class Main {
     public static void main(String[] args) {
 
 
+        /*initialize default settings*/
         Stock stock = new Stock();
-        stock._ip="192.168.1.67";
-        stock._port=27017;
-        stock._dbName="LHA";
+
+        /*overwrite default settings,
+         useful settings you want another DB or PORT or IP*/
+        //stock._ip="10.29.208.70";
+        //stock._port=27017;
+        //stock._dbName="MyDB";
+
+
+        // connection attempt
         stock.connect();
 
 
@@ -23,9 +30,9 @@ public class Main {
 
 
         // Array
-        System.out.println();
+        //System.out.println();
         Object a[] = stock.getSpareOptionsArray().toArray();
-        System.out.println(a.length);
+        //System.out.println(a.length);
         //System.out.println(a[2]);
 
 
@@ -41,7 +48,9 @@ public class Main {
         System.out.println("Method \"all\".. ");
         b = stock.all();
         for(int i = 0; i < b.size();i++)
-            System.out.println(b.get(i));
+        {
+            //System.out.println(b.get(i));
+        }
 
 
 
@@ -65,6 +74,9 @@ public class Main {
 
         /*Marca de  la refaccion*/
         newRecord.put("brand", "Infra");
+
+        /*Numero  que maneja el fabricante o marca*/
+        newRecord.put("brandNumber", "Infra-2525");
 
         /*Codigo de la refaccion */
         newRecord.put("partNumber", "INFR-3232-327");
@@ -153,8 +165,9 @@ public class Main {
 
         /**
          *
+         * Stock Incoming using stock class
          *
-         * Nueva Entrada a Almacen
+         *        Nueva Entrada a Almacen
          *  (Refaccion previamente registrada)
          *
          *
@@ -166,7 +179,7 @@ public class Main {
         Calendar eventDate = Calendar.getInstance();
         TimeZone mexicoTime = TimeZone.getTimeZone("America/Mexico_City");
         eventDate.setTimeZone(mexicoTime);
-        System.out.println(eventDate.getTime());
+        //System.out.println(eventDate.getTime());
         entrada.put("eventDate", eventDate.getTime());
 
         /*part Code Number*/
@@ -192,7 +205,7 @@ public class Main {
 
 
 
-        //stock.entradaAlmacen(entrada);
+        //stock.incoming(entrada);
 
 
 
@@ -222,15 +235,24 @@ public class Main {
          *
          *
          *  FullText Search
-         *  sparePartName , briefDescription, partNumber and barCode are included
+         *
+         *  fields - sparePartName , briefDescription, partNumber,
+         *  barCode, brand, brandNumber, systems, providers.
+         *
+         *  -No Case Sensitive, it doesn't matter upper or lower case.
+         *  -it doesn't matter spaces between words.
+         *  -Text index (language spanish)
          *
          * */
 
-        stock.sparesFullTextSearch("sajid   01 austria       4FD33fd sasa   ");
+        stock.sparesFullTextSearch("  rolcar   SAGAJI      Laser");
 
 
 
 
+
+
+        //closing connection
         stock.close();
 
 
@@ -257,6 +279,7 @@ public class Main {
         sparePart.setSparePartName("Llanta");
         sparePart.setBriefDescription("Llanta a todo terreno");
         sparePart.setBrand("Michelline");
+        sparePart.setBrandNumber("Miche-4379");
         sparePart.setBarCode("xxxyyy");
         //System.out.println(sparePart.getSparePartName());
         //System.out.println(sparePart.getBriefDescription());
@@ -350,11 +373,35 @@ public class Main {
 
         /*get sparePart by barCode (barCode is the primary Key)*/
         sparePart.loadSparePart("xxxyyy");
-        System.out.println(sparePart.getCompatibility());
+        //System.out.println(sparePart.getCompatibility());
 
         /*if that key does Not exist , it is loaded a empty document,that 's mean all variables are cleaned */
         sparePart.loadSparePart("otherID");
-        System.out.println(sparePart.getCompatibility());
+        //System.out.println(sparePart.getCompatibility());
+
+
+        /**
+         * Get ALL SparePArts
+         */
+        List<Object> X = sparePart.getAll();
+        //System.out.println(X.get(0));
+
+
+
+
+        /**
+         * Get Existence Report
+         */
+        List<HashMap<String,Object>> Y = sparePart.getExistenceReport();
+        for(int i = 0; i < Y.size(); i++){
+            //System.out.println("Existence Report => " + Y.get(i));
+            //System.out.println("Existence Report => " + Y.get(i).get("existence"));
+            //System.out.println("Existence Report => " + Y.get(i).get("brand"));
+            //System.out.println("Existence Report => " + Y.get(i));
+
+        }
+
+
 
 
 
@@ -363,16 +410,15 @@ public class Main {
          * update sparePart and save it to DB
          */
 
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++");
+        //System.out.println("+++++++++++++++++++++++++++++++++++++++++++++");
 
         sparePart.loadSparePart("01582524564564");
-        System.out.println("before :" + sparePart.getBrand());
+        //System.out.println("before :" + sparePart.getBrand());
         sparePart.setBrand("WOW");
-        System.out.println("on memory :" + sparePart.getBrand());
+        //System.out.println("on memory :" + sparePart.getBrand());
         sparePart.storeSparePart();
         sparePart.loadSparePart("01582524564564");
-        System.out.println("after :" + sparePart.getBrand());
-
+        //System.out.println("after :" + sparePart.getBrand());
 
 
         /**
@@ -380,13 +426,84 @@ public class Main {
          */
 
         Sales sales = new Sales();
-        sales.setWho("Sajid");
-        sales.addItem("1234567"); //add one by one
+        sales.setWho("Sajid");  // user who commit the sale
+        sales.addItem("1234567"); //add one by one to order
         sales.addItem("1234567");
         sales.addItem("1234567");
         sales.addItems("998877",2); // add many articles
         sales.setTotal(34.54);
         sales.completeSale();
+
+
+        /**
+         * Stock incoming with class
+         */
+
+        StockLog stockLog = new StockLog();
+        stockLog.setWho("Encargado Almacen");
+        stockLog.setComment("Producto de Emergencia");
+        stockLog.setBarCode("998877");
+        stockLog.setPartNumber("7532");
+        stockLog.setHowMany(7);
+        stockLog.setPurchasePrice(15.34);
+        stockLog.setProvider("Sagaji");
+
+        stockLog.incoming();
+
+
+
+
+
+
+        /**
+         * get all Sales Records
+         *
+         */
+
+        Stock salesList = new Stock();
+
+        salesList._ip="127.0.0.1";
+        salesList._port=27017;
+        salesList._dbName="LHA";
+        salesList.connect();
+        for(int i = 0 ; i < salesList.getAllSales().size(); i++ ){
+            //System.out.println(salesList.getAllSales().get(i));
+        }
+
+        salesList.close();
+
+
+
+        /**
+         * Users
+         *
+         */
+
+        System.out.println("\n\n\n************  users  **************");
+        Users user = new Users();
+
+        /*  create a user  */
+        //user.setUsername("user2");
+        //user.setPassword("passs");
+        //user.createUser();
+
+        /*  Authenticate  a user   */
+        int x = user.authenticate("sajid","qwert");
+        System.out.println(x);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

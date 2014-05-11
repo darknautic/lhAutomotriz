@@ -1,5 +1,6 @@
 package com.lhweb.load.model;
 
+
 import java.util.Date;
 import java.util.HashMap;
 
@@ -108,10 +109,6 @@ public class StockLog {
     public int incoming(){
 
         Stock stock = new Stock();
-        stock._ip="192.168.1.67";
-        //stock._ip="10.29.210.41";
-        stock._port=27017;
-        stock._dbName="LHA";
         stock.connect();
 
         /*Your Calculations*/
@@ -159,10 +156,6 @@ public class StockLog {
     public  void  outgoing(){
 
         Stock stock = new Stock();
-        stock._ip="192.168.1.67";
-        //stock._ip="10.29.210.41";
-        stock._port=27017;
-        stock._dbName="LHA";
         stock.connect();
 
         /*Your Calculations*/
