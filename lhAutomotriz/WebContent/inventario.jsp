@@ -25,10 +25,74 @@
 
 $(document).ready(function(){
 	
+	$("#registrar").on("click", function() {		
+		systems = [];
+		systems.push($("#systems").val());
+		
+		providers = [];
+		providers.push($("#providers").val());
+		
+		var sparePart = {
+						"barCode" : $("#barCode").val(),
+						"sparePart" : $("#sparePart").val(),
+						"briefDescription" : $("#briefDescription").val(),
+						"brand" : $("#brand").val(),
+						"brandNumber" : $("#brandNumber").val(),
+						"partNumber" : $("#partNumber").val(),
+						"systems" : systems,
+						"providers" : providers,
+						"stockMin" : $("#stockMin").val(),
+						"salePrice" : $("#salePrice").val()											
+						};	
+		//$(".form-control").val('');
+		//ajaxSend("newSparePart.jsp", sparePart);
+		
+		
+		$.ajax({	
+			type:"POST",
+			url: "newSparePart.jsp",
+       		data: "sparePart="+JSON.stringify(sparePart),
+       		success: function(msg)    {
+       			alert(msg.trim());
+       			/*alert(msg.trim());
+       			$("span#msg").empty();
+       			$("span#msg").append(msg);*/
+       		},
+       		error:   function(xml,msg){ 
+       			alert(msg);
+       			//alert("Error:Favor de Revisar los Valores"); 
+       		}
+ });
+		
+    });
+	
 	$("#cerrarEdi").click(function(env){
 		$( "#containerTableI" ).hide( "blind", { to: { width: 200, height: 60 } }, 1000 );
 		$( "#containerTableP" ).show( "blind", { to: { width: 200, height: 60 } }, 1000 );
 	});
+	
+	function getData(brandNumber){
+		$.ajax({
+			type:"POST",
+			url: "getSpare",
+			data: "brandNumber="+brandNumber,
+	   		success: function(data)    {
+	   			console.log(data);
+	   			var dataSpare = data.split(","); 
+	   			$("#barCode").val(dataSpare[0]);
+	   			$("#sparePart").val(dataSpare[1]);
+	   			$("#briefDescription").val(dataSpare[2]);
+	   			$("#brand").val(dataSpare[3]);
+	   			$("#brandNumber").val(dataSpare[4]);
+	   			$("#partNumber").val(dataSpare[5]);
+	   			//$("#systems").val(dataSpare[0]);
+	   			//$("#providers").val(dataSpare[0]);
+	   			$("#stockMin").val(dataSpare[6]);
+	   			$("#salePrice").val(dataSpare[7]);
+	   			$("#specialOfferPrice").val(dataSpare[8]);
+	   		}
+		});
+	}
 	
 	$.ajax({	
 		type:"POST",
@@ -77,14 +141,15 @@ $(document).ready(function(){
 	   	         var aData = oTable.fnGetData( aPos[0] );
 	
 	   	         // get departmentID for the row
-	   	         var departmentID = aData[aPos][2];
-	   	         console.log(departmentID);
-	   	      	 alert(departmentID);
-   	            
+	   	         var brandNumber = aData[aPos][2];
+	   	         console.log(brandNumber);
+
 	   	      	 
 	   	      	 
-   				/*$( "#containerTableP" ).hide( "blind", { to: { width: 200, height: 60 } }, 1000 );
-   				$( "#containerTableI" ).show( "blind", { to: { width: 200, height: 60 } }, 1000 );	*/			
+   				$( "#containerTableP" ).hide( "blind", { to: { width: 200, height: 60 } }, 1000 );
+   				$( "#containerTableI" ).show( "blind", { to: { width: 200, height: 60 } }, 1000 ,function(){
+   					getData(brandNumber);
+   				});				
    			});
    			
    		},
@@ -154,14 +219,14 @@ $(document).ready(function(){
 							<div class="form-group">
 						   		<label for="inputEmail3" class="col-sm-2 control-label">N&uacute;mero de Referencia:</label>	  
 							  	<div class="col-xs-8">
-							    	<input id="partNumber" type="text" class="form-control" placeholder="N&uacute;mero de Referencia (opcional)">
+							    	<input id="partNumber" type="text" class="form-control" placeholder="">
 							    	<div class="help-block with-errors"></div>
 							  	</div>
 							</div>
 							<div class="form-group">
 						   		<label for="inputEmail3" class="col-sm-2 control-label">Sistema:</label>	  
 							  	<div class="col-xs-8">
-							    	<input id="systems" type="text" class="form-control" placeholder="Sistemas" list="systems" data-error="Por Favor, Ingresa un Sistema" required/>
+							    	<input id="systems" type="text" class="form-control" placeholder="" list="systems" />
 						            <datalist id="systems">              
 						              <option value="Afinacion"></option>
 						              <option value="Suspension"></option>                                         
@@ -172,7 +237,7 @@ $(document).ready(function(){
 							<div class="form-group">
 						   		<label for="inputEmail3" class="col-sm-2 control-label">Proveedor:</label>	  
 							  	<div class="col-xs-8">
-							    	<input id="providers" type="text" class="form-control" placeholder="Proveedores" list="providersList" data-error="Por Favor, Ingresa un Proveedor" required/>
+							    	<input id="providers" type="text" class="form-control" placeholder="" list="providersList"/>
 						            <datalist id="providersList">              
 						              <option value="Sagaji"></option>
 						              <option value="Rolecar"></option>
@@ -206,7 +271,7 @@ $(document).ready(function(){
 							</div>
 							<div class="form-group">
 						      <div class="col-lg-10 col-lg-offset-2">
-						        <button type="submit" id="registrar" class="btn btn-primary" disabled="disabled">Registrar</button>
+						        <button type="submit" id="registrar" class="btn btn-primary" disabled="disabled">Guardar</button>
 						      </div>
 							</div>
 						</fieldset>
