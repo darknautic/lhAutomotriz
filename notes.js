@@ -207,6 +207,8 @@ Remove a Document or embedded Document from  JSON
               db.users.ensureIndex( { "username": 1 }, { unique: true } )
 
       remove - db.spares.dropIndex( { "barCode": 1 } )
+              db.spares.dropIndex("barCode_1");
+
 
 
       Text Index all Fields 
