@@ -251,7 +251,6 @@ public class Main {
 
 
 
-
         //closing connection
         stock.close();
 
