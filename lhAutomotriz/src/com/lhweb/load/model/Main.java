@@ -461,7 +461,8 @@ public class Main {
 
         Stock salesList = new Stock();
 
-        salesList._ip="127.0.0.1";
+        //salesList._ip="127.0.0.1";
+        salesList._ip="10.29.210.41";
         salesList._port=27017;
         salesList._dbName="LHA";
         salesList.connect();

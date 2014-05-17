@@ -38,6 +38,7 @@ sparePart
                       class05 : [2014],
                     }
       },
+      compatibilityText : ["camaro","limited","2007","camaro","limited","2008"],
       providers : ["sagaji" ,"egarama","proveedor-3","proveedor-4"],  
       stockMin : 40,
       existence : 60,  
@@ -243,6 +244,9 @@ Remove a Document or embedded Document from  JSON
                           }
                          );
             db.spares.ensureIndex({barCode: "text",sparePart: "text",briefDescription: "text",brand: "text",brandNumber: "text",partNumber: "text",systems: "text",providers: "text" },{name: "fullTextSearch-Spares",default_language: "spanish"});
+
+
+            *** in case requiere enable add  setParameter=textSearchEnabled=true   to mongodb.conf
 
 
       list indexs
