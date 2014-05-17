@@ -24,7 +24,8 @@ public class Stock {
     private MongoClient mongoClient;
 
     public Stock(){
-        _ip="192.168.1.67";
+        //_ip="192.168.1.67";
+        _ip="10.29.210.41";
         _port=27017;
         _dbName="LHA";
     };
