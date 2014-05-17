@@ -218,3 +218,9 @@ db.stockLog.insert({
   purchasePrice : 5.10,
   provider : "sagaji"
 });
+
+
+db.users.insert({
+  username : "sajid",
+  password : "myPassword"  
+});

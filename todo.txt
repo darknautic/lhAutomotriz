@@ -9,6 +9,9 @@ todo
 **  stock trace
 
 
+db.aux.insert({compatibilityText : ["camaro","limited","2007","camaro","limited","2008"]});
+db.aux.update({ "_id" : ObjectId("5376c9dc759ab148dd15032f") },{ $push : { compatibilityText :  "xxxxxxxxxxx" }});
+for( i=0 ; i<10 ; i++){db.aux.update({ "_id" : ObjectId("5376c9dc759ab148dd15032f") },{ $push : { compatibilityText :  "xxxxxxxxxxx-"+i }});}
 
 
 
