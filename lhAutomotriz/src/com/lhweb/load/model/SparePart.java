@@ -20,6 +20,7 @@ public class SparePart {
     private String barCode;
     private HashMap<String, HashMap<String,HashMap<String, List<Integer>>>> compatibility
             = new HashMap<String, HashMap<String, HashMap<String, List<Integer>>>>();
+    private HashMap<String,List<String>> compatibilityText = new HashMap<String, List<String>>();
     private HashMap<String,List<String>> providers = new HashMap<String, List<String>>();
     private int stockMin;
     private int existence;
@@ -51,6 +52,11 @@ public class SparePart {
         this.compatibility.clear();
         HashMap<String,HashMap<String, List<Integer>>> cars = new HashMap<String, HashMap<String, List<Integer>>>();
         compatibility.put("compatibility",cars);
+        
+        List<String> compatibilityText = new ArrayList<String>();
+        this.compatibilityText.clear();
+        this.compatibilityText.put("systems",systemsList);
+
 
         /*Initialization of Providers*/
         List<String> providersList = new ArrayList<String>();

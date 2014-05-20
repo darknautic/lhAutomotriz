@@ -1,7 +1,37 @@
+use LHA;
+
+//create collections
+db.createCollection("spares");
+db.createCollection("stockLog");
+db.createCollection("users");
+db.createCollection("sales");
+//create index
+db.spares.ensureIndex( {"brandNumber": 1,"barCode": 1},{ unique: true });
+db.users.ensureIndex( { "username": 1 }, { unique: true } );
+db.spares.ensureIndex( {
+                         barCode: "text",
+                         sparePart: "text",
+                         briefDescription: "text",
+                         brand: "text",
+                         brandNumber: "text",
+                         partNumber: "text",
+                         systems: "text",
+                         providers: "text" 
+
+                       },
+                       {
+                        name: "fullTextSearch-Spares",
+                        default_language: "spanish"
+                      }
+                     );
+
+
+//sample data
 db.spares.insert({
   sparePart : "bujia",
   briefDescription : "", 
   brand : "ngk",
+  brandNumber : "ngk4341",
   partNumber : "ngk-2021-1",
   systems : ["afinacion"],  
   barCode : "11222334455",  
@@ -22,6 +52,7 @@ db.spares.insert({
   sparePart : "bujia laser",
   briefDescription : "",
   brand : "ngk",
+  brandNumber : "ngk4342",
   partNumber : "ngk-2021-1-l",
   systems : ["afinacion"],  
   barCode : "0870935409504",  
@@ -42,6 +73,7 @@ db.spares.insert({
   sparePart : "bujia platinium",
   briefDescription : "",
   brand : "ngk",
+  brandNumber : "ngk4343",
   partNumber : "ngk-2021-1-p",
   systems : ["afinacion"],  
   barCode : "01582524564564",  
@@ -65,6 +97,7 @@ db.spares.insert({
   sparePart : "amortiguador delantero izq",
   briefDescription : "",
   brand : "bogue",
+  brandNumber : "ngk4344",
   partNumber : "mp-2840",
   systems : ["suspension"],  
   barCode : "84657775992",  
@@ -85,6 +118,7 @@ db.spares.insert({
   sparePart : "amortiguador delantero der",
   briefDescription : "derecho",
   brand : "bogue",
+  brandNumber : "ngk4345",
   partNumber : "mp-2841",
   systems : ["suspension"],  
   barCode : "846577755457",  
@@ -105,6 +139,7 @@ db.spares.insert({
   sparePart : "amortiguador delantero izq (gas)",
   briefDescription : "gas izquierdo",
   brand : "bogue",
+  brandNumber : "ngk4346",
   partNumber : "mp-2840-g",
   systems : ["suspension"],  
   barCode : "85736800223",  
@@ -125,6 +160,7 @@ db.spares.insert({
   sparePart : "amortiguador delantero der (gas)",
   briefDescription : "",
   brand : "bogue",
+  brandNumber : "ngk4347",
   partNumber : "mp-2841-g",
   systems : ["suspension"],  
   barCode : "8573680048485",  
@@ -145,6 +181,7 @@ db.spares.insert({
   sparePart : "amortiguador trasero izq y der",
   briefDescription : "",
   brand : "bogue",
+  brandNumber : "ngk4348",
   partNumber : "mp-2841-g",
   systems : ["suspension"],  
   barCode : "1573680048485",  
@@ -165,6 +202,7 @@ db.spares.insert({
   sparePart : "amortiguador delantero izq",
   briefDescription : "",
   brand : "kyb",
+  brandNumber : "ngk4349",
   partNumber : "kb-2840",
   systems : ["suspension"],  
   barCode : "9989889898",  
@@ -186,6 +224,7 @@ db.spares.insert({
   sparePart : "amortiguador delantero der",
   briefDescription : "",
   brand : "kyb",
+  brandNumber : "ngk4340",
   partNumber : "kb-2841",
   systems : ["suspension"],  
   barCode : "99757575757",  
@@ -211,8 +250,7 @@ db.stockLog.insert({
   who : "Tony Stark",
   comment : "pedido urgente",
   io : "in",  
-  partNumber : "ngk-2021-1",
-  barCode : "4495394803947",  
+  sparePartId : ObjectId("536c11b1e4b020aacd0bd396"), 
   howMany : 17,
   howManyBefore : 1,  
   purchasePrice : 5.10,

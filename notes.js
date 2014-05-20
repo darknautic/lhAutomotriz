@@ -14,10 +14,11 @@ C0m3t3unsn1k3r
 sparePart
 ----------------------------
     db.spares.insert({
-      sparePart : "bujia",
+      sparePart : "bujia",  //sparepart name
       briefDescription : "",
-      brand : "ngk",
-      partNumber : "ngk-2021-1",
+      brand : "ngk",  //who make this sparepart
+      brandNumber : "ngk02020", // Brand or Factory Number, sometimes the factory is equal to reference
+      partNumber : "ngk-2021-1", // Reference Number
       systems : ["afinacion","arranque"],  
       barCode : "449539480394",  
       compatibility :  { 
@@ -43,12 +44,15 @@ sparePart
       stockMin : 40,
       existence : 60,  
       salePrice : 16.00, // it is set by manager or business owner
+      purchasePrice : 10.00, // last provider price (last time when LHAutomotriz bougth this sparepart)
+      roe : 20.00,  // Return on Equity (rentabilidad)
       specialOfferPrice : 10.00,   /* calculado por porcentage o pesos descontados esto es manejado desde la 
                                 interface y aqui solo se guarda el resultado
                                 */
       balance : 340.00  /**
                     goal : to know how money is in stock : 
                     in(+)(unitprice*how many bougth)  out,sale(-)(salesprice)
+                    useful to know la rentabilidad
                     */
     });
 
@@ -63,13 +67,39 @@ stockLog
       who : "",
       comment : "",
       io : "in",  // [in,out,registration,modification]
-      partNumber : "KB-2840",
-      barCode : "4495394803947",  
+      sparePartId : ObjectId("536c11b1e4b020aacd0bd396"),  
       howMany : 17,
       howManyBefore : 1,  // cuantos habia antes de esta llegada
       purchasePrice : 5.10,
       provider : ""      
     });
+//--- other version
+    db.stockLog.insert({
+      eventDate : new Date(),
+      who : "",
+      comment : "",
+      io : "in",  // [in,out,registration,modification]
+      sparePartId : {
+                  "$ref" : "spares",
+                  "$id" : ObjectId("5126bc054aed4daf9e2ab772"),
+                  "$db" : "LHA"
+                },
+      howMany : 17,
+      howManyBefore : 1,  // cuantos habia antes de esta llegada
+      purchasePrice : 5.10,
+      provider : "sagaji"      
+    });
+
+
+----------------------------
+sparePartTrace
+----------------------------
+db.sparePartTrace.insert({
+  eventDate : new Date(),
+  sparePartId : ObjectId("536c11b1e4b020aacd0bd396"),
+  quantity : 50 
+});
+
 
 
 
@@ -206,6 +236,9 @@ Remove a Document or embedded Document from  JSON
       add -   db.spares.ensureIndex( { "barCode": 1 }, { unique: true } )
               db.spares.ensureIndex( { "brandNumber": 1 }, { unique: true } )
               db.users.ensureIndex( { "username": 1 }, { unique: true } )
+            compound :
+              db.spares.ensureIndex( {"brandNumber": 1,"barCode": 1},{ unique: true });
+
 
       remove - db.spares.dropIndex( { "barCode": 1 } )
               db.spares.dropIndex("barCode_1");
