@@ -1,6 +1,6 @@
 
 
-C0m3t3unsn1k3r
+C0m3t3unsn1k3
 
 
 ============================================================================================
@@ -328,7 +328,7 @@ Restore
     $ mongorestore  --db LHA  LHA/
 
 
-
+    mongoimport --host 10.29.210.41  --db test --collection md5 --type csv --fields _id,md5 <  file.csv
 
 ----------------------------
 Export
