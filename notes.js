@@ -306,6 +306,14 @@ Backups
 ----------------------------
     $ cd /home/s47id/projects/lha-spareparts
     $ mongodump --db LHA --out bkp_LHA_04May2014
+    
+    backup--
+b = db.products_bak; db.products.find().forEach( function(o){ b.insert(o) } )
+update---
+p = db.products
+p.find({for : "ac3"}).forEach(function(o){o.price=2; p.save(o);})
+
+
 
 
 ----------------------------
