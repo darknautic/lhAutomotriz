@@ -12,6 +12,14 @@ http://blog.mongodb.org/post/94065240033/getting-started-with-mongodb-and-java-p
 http://blog.mongodb.org/post/94724924068/getting-started-with-mongodb-and-java-part-ii
 http://docs.mongodb.org/manual/administration/security/
 
+http://api.mongodb.org/java/current/
+http://docs.mongodb.org/manual/core/replica-set-high-availability/
+http://api.mongodb.org/java/2.12/com/mongodb/MongoURI.html
+http://reactivemongo.org/
+http://docs.mongodb.org/manual/
+https://github.com/mongodb/mongo-java-driver/tree/master/src/examples/example
+
+
 
 ============================================================================================
 ====================                     ===================================================
